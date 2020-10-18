@@ -43,7 +43,8 @@ class _FoodPageState extends State<FoodPage> {
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
                         image: NetworkImage(
-                          'https://kprofiles.com/wp-content/uploads/2018/07/cweknagte.jpg'
+                          // Cara memanggil (User => picturePath) dari cubit/bloc setelah berada di state UserLoaded(user.picturePath)
+                          (context.bloc<UserCubit>().state as UserLoaded).user.picturePath
                         ),
                         fit: BoxFit.cover
                       ),
@@ -52,26 +53,47 @@ class _FoodPageState extends State<FoodPage> {
                 ],
               ),
             ),
+
+            //-------------------------------------------------------------------------------
+
             // LIST OF FOOD
             Container(
               height: 258,
               width: double.infinity,
-              child: ListView(
-                scrollDirection: Axis.horizontal, // scroll ke samping
-                children: [
-                  Row(
-                    children: mockFoods.map((food) => Padding(
-                      padding: EdgeInsets.only(
-                        left: (food == mockFoods.first) ? // mockFoods => index 0 dari mockFoods
-                        defaultMargin : 0,
-                        right: defaultMargin
-                      ),
-                      child: FoodCard(food),
-                    )).toList(), //Mapping data mockFood ke FoodCard,
-                  ),
-                ],
+              child: BlocBuilder<FoodCubit, FoodState>( // Cara mengecek berada di state mana
+                builder: (_, state) => (state is FoodLoaded) ? ListView( // state <=> FoodLoaded
+                  scrollDirection: Axis.horizontal, // scroll ke samping
+                  children: [
+                    Row(
+                      children: state.foods.map((food) => Padding(
+                        padding: EdgeInsets.only(
+                          left: (food == mockFoods.first) ? // mockFoods => index 0 dari mockFoods
+                          defaultMargin : 0,
+                          right: defaultMargin
+                        ),
+                        child: GestureDetector( // Untuk click ke DetailFoodPage
+                          onTap: (){
+                            Get.to(FoodDetailPage( // FoodDetailPage membutuhkan parameter model Transaction yang ter-load dan onBackPreesed untuk kembali ke MainPage
+                              transaction: Transaction( // di model Transaction membutuhkan model Food dan User yang ter-load
+                                food: food,
+                                user: (context.bloc<UserCubit>().state as UserLoaded).user
+                              ),
+                              onBackPressed: (){
+                                Get.back();
+                              },
+                            ));
+                          },
+                          child: FoodCard(food)
+                        ),
+                      )).toList(), //Mapping data mockFood ke FoodCard,
+                    ),
+                  ],
+                ) : Center(child: loadingIndicator,),
               ),
             ),
+
+            //-------------------------------------------------------------------------------
+
             // LIST OF FOOD (TAB BAR)
             Container(
               width: double.infinity,
@@ -95,28 +117,39 @@ class _FoodPageState extends State<FoodPage> {
                     height: 16,
                   ),
                   // LIST FOOD
-                  Builder(builder: (_) { // Builder untuk  Content Custom Tab Bar berdasarkan 
-                  // selectedIndex yang didapatkan dari props onTap dari CustomTabBar
-                    List<Food> foods = (selectedIndex == 0) 
-                      ? mockFoods
-                      :  (selectedIndex == 1)
-                        ? []
-                        : [];
+                  BlocBuilder<FoodCubit, FoodState>(builder: (_, state) // Cara mengecek berada di state mana
+                    {
+                      if(state is FoodLoaded) { 
+                      // Content Custom Tab Bar berdasarkan 
+                      // selectedIndex yang didapatkan dari props onTap dari CustomTabBar
+                        List<Food> foods = state.foods.where(
+                          (element) => element.types.contains(
+                            (selectedIndex == 0) 
+                              ? FoodType.new_food
+                              :  (selectedIndex == 1)
+                                ? FoodType.popular
+                                : FoodType.recommended
+                          )
+                        ).toList();
 
-                    return Column(
-                      children: 
-                        foods.map(
-                          (food) => 
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 16),
-                              child: FoodListItem(
-                                food: food, 
-                                itemWidth: listItemWidth
-                              ),
-                            )
-                        ).toList(),
-                    );
-                  }),
+                        return Column(
+                          children: 
+                            foods.map(
+                              (food) => 
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 16),
+                                  child: FoodListItem(
+                                    food: food, 
+                                    itemWidth: listItemWidth
+                                  ),
+                                )
+                            ).toList(),
+                        );
+                      } else {
+                        return Center(child: loadingIndicator,);
+                      }
+                    }
+                  ),
                 ]
               )
             ),

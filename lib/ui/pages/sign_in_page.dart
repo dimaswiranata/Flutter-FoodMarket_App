@@ -6,11 +6,12 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    bool isLoading = false;
 
     return GeneralPage(
       title: 'Sign In',
@@ -73,13 +74,53 @@ class _SignInPageState extends State<SignInPage> {
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             child: isLoading ? 
             (
-              SpinKitFadingCircle(
-                size: 45, 
-                color: mainColor,
-              )
+              loadingIndicator
             ) : (
               RaisedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  setState(() { // set untuk menampilkan loadingIndicaotr
+                    isLoading = true;
+                  });
+                  
+                  // memanggil method signIn di cubit UserCubit 
+                  await context.bloc<UserCubit>().signIn(emailController.text, passwordController.text);
+                  // memanggil berada dimana UserState saat ini
+                  UserState state = context.bloc<UserCubit>().state;
+                  
+                  // jika state UserCubit di UserLoaded / data berhasil didapatkan maka
+                  // memanggil method getFoods di cubit FoodCubit & getTransactions di TransactionCubit
+                  // dan Navigation ke MainPage();
+                  if (state is UserLoaded){
+                    context.bloc<FoodCubit>().getFoods();
+                    context.bloc<TransactionCubit>().getTransactions();
+                    Get.to(MainPage());
+                  } else { // jika state UserCubit di UserLoadingFailed / gagal mendapatkan data maka
+                    // Notify/Pop Up dari Get
+                    Get.snackbar(
+                      "", "",
+                      backgroundColor: "D9435E".toColor(),
+                      icon: Icon( // Icon X
+                        MdiIcons.closeCircleOutline,
+                        color: Colors.white
+                      ),
+                      titleText: Text(
+                        "Sign In Failed",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight : FontWeight.w600
+                        ),
+                      ),
+                      messageText: Text(
+                        // Cara memanggil message dari cubit/bloc jika berada di state UserLoadingFailed(UserLoadingFailed.message)
+                        (state as UserLoadingFailed).message,
+                        style: GoogleFonts.poppins(color: Colors.white),
+                      )
+                    );
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                },
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)
