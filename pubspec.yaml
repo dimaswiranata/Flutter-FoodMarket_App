@@ -44,6 +44,12 @@ dependencies:
   intl: ^0.16.1
   # untuk keperluan testing
   equatable: ^1.2.4
+  # untuk integrate ke API
+  http: ^0.12.2
+  # untuk mengambil picture dari internal storage
+  image_picker: ^0.6.7+11
+  # untuk menampilkan link dari Mi Trans
+  url_launcher: ^5.7.2
 
 dev_dependencies:
   flutter_test:

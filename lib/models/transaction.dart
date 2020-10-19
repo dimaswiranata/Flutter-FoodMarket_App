@@ -28,7 +28,7 @@ class Transaction extends Equatable{
   });
 
   // Method copyWith untuk mencopy Transaction agar bisa di edit, jadi jika ingin mengedit maka datanya masuk ke copyWith
-  // Transaction typenya Equatable dan atributenya final semua jadi tidak bisa d
+  // Transaction typenya Equatable dan atributenya final semua jadi tidak bisa didedit
   Transaction copyWith({
     int id,
     Food food,
