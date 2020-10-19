@@ -6,11 +6,13 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  User user;
+  File pictureFile;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController nameController = TextEditingController();
 
     return GeneralPage(
       title: 'Sign Up',
@@ -29,14 +31,28 @@ class _SignUpPageState extends State<SignUpPage> {
             decoration: BoxDecoration( // Container decoration => BoxDecoration bisa punya background Image
               image: DecorationImage(image: AssetImage('lib/assets/photo_border.png'))
             ),
-            child: Container( // Container dalam Contaienr
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage('https://kprofiles.com/wp-content/uploads/2018/07/cweknagte.jpg'),
-                  fit: BoxFit.cover
+            // Container dalam Container
+            child: (pictureFile != null) ?
+            (
+              Container( 
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: FileImage(pictureFile), // File Image jika image berasal dari file
+                    fit: BoxFit.cover
+                  ),
                 ),
-              ),
+              )
+            ) : (
+              Container( 
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage('lib/assets/photo.png'),
+                    fit: BoxFit.cover
+                  ),
+                ),
+              )
             ),
           ),
           // Container Text "Full Name"

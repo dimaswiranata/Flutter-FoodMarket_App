@@ -15,7 +15,11 @@ class TransactionServices {
   static Future<ApiReturnValue<Transaction>> submitTransaction(Transaction transaction) async {
     await Future.delayed(Duration(seconds: 2)); // delay koneksi dalam proses submitTransaction kira2, 0.5 detik
 
-    return ApiReturnValue(value: transaction.copyWith(id: 123, status: TransactionStatus.pending)); // Jika berhasil maka mengembalikan Transcation baru dengan dummy id dan status tsb
+    // Jika berhasil maka mengembalikan Transcation baru dengan dummy id dan 
+    // status(dummy data => submitTransaction baru default status.pending) tsb
+    return ApiReturnValue(value: transaction.copyWith(id: 123, status: TransactionStatus.pending)); 
+    // JIka Gagal
+    // return ApiReturnValue(message: 'Transaksi Gagal'); 
   }
   
 }
