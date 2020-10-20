@@ -20,8 +20,8 @@ class TransactionCubit extends Cubit<TransactionState>{
     }
   }
 
-  // bool, true jika submit berhasil dan false jika submit gagal
-  Future<bool> submitTransaction(Transaction transaction) async {
+  // jadi kembali dari submitTransaction adalah payment url untuk mi trans
+  Future<String> submitTransaction(Transaction transaction) async {
     ApiReturnValue<Transaction> result = await TransactionServices.submitTransaction(transaction);
 
     if(result.value != null){
@@ -29,10 +29,11 @@ class TransactionCubit extends Cubit<TransactionState>{
       emit(TransactionLoaded(
         (state as TransactionLoaded).transactions + [result.value]
       ));
-      return true;
+      // kemudian mengembalikan payment url
+      return result.value.paymentUrl;
     } else { 
-      // Jika result tidak mempunyai data atau gagal maka, mengembalikan false;
-      return false;
+      // Jika result tidak mempunyai data atau gagal maka, mengembalikan null;
+      return null;
     }
   }
   

@@ -16,6 +16,7 @@ class Transaction extends Equatable{
   final DateTime dateTime;
   final TransactionStatus status;
   final User user;
+  final String paymentUrl;
 
   Transaction({
     this.id, 
@@ -24,7 +25,8 @@ class Transaction extends Equatable{
     this.total,
     this.dateTime,
     this.status,
-    this.user
+    this.user,
+    this.paymentUrl
   });
 
   // Method copyWith untuk mencopy Transaction agar bisa di edit, jadi jika ingin mengedit maka datanya masuk ke copyWith
@@ -52,6 +54,23 @@ class Transaction extends Equatable{
   @override
   List<Object> get props => [id, food, quantity, total, dateTime, status, user];
   //
+
+  // fromJson mengubah Json menjadi Object
+  factory Transaction.fromJson(Map<String, dynamic> data) => Transaction(
+    id: data['id'],
+    quantity: data['quantity'],
+    total: data['total'],
+    dateTime: DateTime.fromMillisecondsSinceEpoch(data['created_at']), // "created_at": 1600403217000, bertype milliseconds(since created) diubah ke DateTime()
+    food: Food.fromJson(data['food']),
+    status: (data['status'] == 'PENDING') 
+              ? TransactionStatus.pending
+              : (data['status'] == 'DELIVERED') 
+                ? TransactionStatus.delivered
+                : (data['status'] == 'CANCELLED')
+                  ? TransactionStatus.cancelled
+                  : TransactionStatus.on_delivery,
+    paymentUrl: data['payment_url'] // url payment dari backend Mi Trans
+  );
 }
 
 List<Transaction> mockTransaction = [

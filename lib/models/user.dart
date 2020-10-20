@@ -22,6 +22,17 @@ class User extends Equatable{
     this.picturePath,
   });
 
+  factory User.fromJson(Map<String, dynamic> data) => User(
+    id: data['id'],
+    name: data['name'],
+    email: data['email'],
+    address: data['address'],
+    houseNumber: data['houseNumber'],
+    phoneNumber: data['phoneNumber'],
+    city: data['city'],
+    picturePath: data['profile_photo_url'],
+  );
+
   // Method copyWith untuk mencopy User agar bisa di edit, jadi jika ingin mengedit maka datanya masuk ke copyWith
   // User typenya Equatable dan atributenya final semua jadi tidak bisa didedit
   User copyWith({
