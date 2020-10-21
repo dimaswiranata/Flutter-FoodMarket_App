@@ -1,6 +1,8 @@
 part of 'widgets.dart';
 
 class CustomTabBar extends StatelessWidget {
+
+  //* props CustomTabBar required for Widget Component
   final int selectedIndex;
   final Function(int index) onTap;
   final List<String> titles;
@@ -13,61 +15,74 @@ class CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // todo: --------------------------------- BODY : COMPONENT / WIDGET CONTENT -------------------------------------
+
     return Container(
-      height: 50, // tinggi tabbar
-      child: Stack(
+      height: 50, //* height CustomTabBar
+      child: Stack( //* STACK <=> LAYER
         children: [
-          // Stack Child => Garis abu dibawah
+
+          // todo: Stack Child => Container dengan garis dibawah (layer Pertama)
           Container(
-            margin: EdgeInsets.only(top: 48), // height 50 paddingTop 48 berarti Continer berada di bawah
+            margin: EdgeInsets.only(top: 48), //* height 50 marginTop 48 berarti Container berada di bawah
             height: 1,
-            color: "F2F2F2".toColor(),
+            color: "F2F2F2".toColor(), //* warna
           ),
-          // Stack Child => Row Title
+
+          // todo: Stack Child => Row untuk Text titles [] & garis Horizontal (layer Kedua)
           Row(
-            children: titles.map((title) => 
-              Padding(
+            children: titles.map((title) => //todo: memapping Text titles[] & garis Horizontal 
+
+              Padding( //todo: Column (Text titles [] & garis Horizontal) dibungkus Padding untuk jarak antar title
                 padding: EdgeInsets.only(left: defaultMargin),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end, // Menaruh ke paling bawah stack
+                child: Column( // todo: Column untuk (Text titles [] & garis Horizontal)
+                  mainAxisAlignment: MainAxisAlignment.end, //* Column (MainAxisAlignment/Vertical) <=> (end) Menaruh ke paling bawah Stack
                   children: [
-                    GestureDetector(
-                      onTap: (){ //Jika diklik maka akan mengubah onTap(index) sesuai index si Title
+
+                    // todo: Text titles[] dibungkus GestureDetector untuk mengklik Text titles[]
+                    GestureDetector( 
+                      onTap: (){ //todo: Jika Text titles[] diklik maka akan mengubah onTap(index) sesuai index si titles[i]
                         if(onTap != null){
                           onTap(titles.indexOf(title));
                         }
                       },
+
+                      // todo: Text titles[]
                       child: Text(
                         title,
-                        style: (titles.indexOf(title) == selectedIndex) // Jika index dari list Title yang terpilih (index = selectedIndex)
+                        style: (titles.indexOf(title) == selectedIndex) // todo: Style Text titles[], jika index titles[index] yang terpilih (index = selectedIndex)
                           ? (
-                              blackFontStyle3.copyWith(fontWeight: FontWeight.w500)
+                              blackFontStyle3.copyWith(fontWeight: FontWeight.w500) // todo: Style Text titles[] active
                             ) : (
-                              greyFontStyle
+                              greyFontStyle //! Style Text titles[] inactive
                           )
                       ),
                     ),
-                    // Garis Horizontal Sesuai OnTab(index)
+
+                    // todo: garis Horizontal sesuai OnTab(index), index titles[index] yang terpilih (index = selectedIndex)
                     Container(
                       width: 40,
-                      height: 3,
+                      height: 3, //* height 3 untuk garis Horizontal
                       margin: EdgeInsets.only(top: 13),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(1.5),
-                        color: (titles.indexOf(title) == selectedIndex) ? (
-                          "020202".toColor()
+                        color: (titles.indexOf(title) == selectedIndex) ? ( // todo: Style(Background Color Container) garis horizontal, jika index titles[index] yang terpilih (index = selectedIndex)
+                          "020202".toColor()  //todo: Background Color Container (kehitaman) active
                         ) : (
-                          Colors.transparent
+                          Colors.transparent //! Background Color Container (transparent) inactive
                         )
                       ),
                     ),
                   ],
                 ),
               ),
-            ).toList(),
+            ).toList(),  // todo: Mapping data toList()
           ),
         ],
       ),
     );
+
+    // todo: --------------------------------- BODY : COMPONENT / WIDGET CONTENT -------------------------------------// todo: --------------------------------- END OF : COMPONENT / WIDGET CONTENT -------------------------------------
   }
 }

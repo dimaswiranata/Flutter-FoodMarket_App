@@ -13,11 +13,18 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
 
+    // todo: ----------------------------------- HEADER -------------------------------------------
+
     return GeneralPage(
       title: 'Sign In',
       subtitle: 'Find your best ever meal',
+
+      // todo: --------------------------------- BODY : SCREEN CONTENT -------------------------------------
+
       child: Column(
         children: [
+
+          // todo: -------------------------- INPUT EMAIL ADDRESS-----------------------------------
 
           // todo: Container Text "Email Address" for TextField "Email Address" title
           Container(
@@ -33,7 +40,7 @@ class _SignInPageState extends State<SignInPage> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration( //* Untuk dekorasi dari Border Container
               borderRadius: BorderRadius.circular(8), //* BorderRadius untuk Container
-              border: Border.all(color: Colors.black, width: 2) //* Color & Width untuk Container
+              border: Border.all(color: Colors.black, width: 2) //* Color & Width Border untuk Container
             ),
 
             // todo: TextField "Email Address"
@@ -47,6 +54,8 @@ class _SignInPageState extends State<SignInPage> {
             ),
 
           ),
+
+          // todo: -------------------------- INPUT PASSWORD -----------------------------------
 
           // todo: Container Text "Password" for TextField "Password" title
           Container(
@@ -62,7 +71,7 @@ class _SignInPageState extends State<SignInPage> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration( //* Untuk dekorasi dari Border Container
               borderRadius: BorderRadius.circular(8), //* BorderRadius untuk Container
-              border: Border.all(color: Colors.black, width: 2) //* Color & Width untuk Container
+              border: Border.all(color: Colors.black, width: 2) //* Color & Width Border untuk Container
             ),
 
             // todo: TextField "Password"
@@ -77,6 +86,8 @@ class _SignInPageState extends State<SignInPage> {
             ),
 
           ),
+
+          // todo: -------------------------- BUTTON "SIGN IN" -----------------------------------
 
           // todo: Container untuk BUTTON 'SIGN IN'
           Container(
@@ -105,13 +116,18 @@ class _SignInPageState extends State<SignInPage> {
                   // todo: cek jika state UserCubit di UserLoaded / data berhasil didapatkan maka
                   if (state is UserLoaded){
 
-                    context.bloc<FoodCubit>().getFoods(); // todo: memanggil method getFoods di cubit FoodCubit 
-                    context.bloc<TransactionCubit>().getTransactions(); // todo: memanggil getTransactions di TransactionCubit
-                    Get.to(MainPage()); // todo: dan Navigation ke MainPage();
+                    // todo: memanggil method getFoods di cubit FoodCubit untuk men-load data Food
+                    context.bloc<FoodCubit>().getFoods(); 
+
+                    // todo: memanggil getTransactions di TransactionCubit untuk menLoad data Transaction
+                    context.bloc<TransactionCubit>().getTransactions();
+
+                    // todo: dan Navigation ke MainPage();
+                    Get.to(MainPage()); 
 
                   } else { //! jika state UserCubit di UserLoadingFailed / gagal mendapatkan data maka
 
-                    // todo: Notify/Pop Up dari Get snackbar serta
+                    //! Notify/Pop Up Error dari Get snackbar serta
                     Get.snackbar(
                       "", "",
                       backgroundColor: "D9435E".toColor(),
@@ -141,9 +157,9 @@ class _SignInPageState extends State<SignInPage> {
                 },
                 elevation: 5, //* Jarak dari Backgroud ke RaisedButton 
                 shape: RoundedRectangleBorder( //* shape Border dari RaisedButton
-                  borderRadius: BorderRadius.circular(8)
+                  borderRadius: BorderRadius.circular(8) //* value Radius dari RaisedButton
                 ),
-                color: mainColor, //* Background Color RaisedColor
+                color: mainColor, //* Background Color RaisedButton
 
                 // todo: isi child dari RaisedButton yaitu Widget Text('Sign In')
                 child: Text( //* Isi WIDGET
@@ -157,6 +173,8 @@ class _SignInPageState extends State<SignInPage> {
               )
             )
           ),
+
+          // todo: -------------------------- BUTTON "SIGN UP" -----------------------------------
 
           // todo: Container untuk BUTTON 'SIGN UP'
           Container(
@@ -192,6 +210,9 @@ class _SignInPageState extends State<SignInPage> {
           )
         ],
       ),
+
+      // todo: --------------------------------- END OF : SCREEN CONTENT -------------------------------------
+      
     );
   }
 }

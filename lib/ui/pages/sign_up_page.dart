@@ -14,15 +14,22 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
 
+    // todo: ----------------------------------- HEADER -------------------------------------------
+
     return GeneralPage(
       title: 'Sign Up',
       subtitle: 'Register and eat',
       onBackButtonPressed: () {
         Get.back();
       },
+
+      // todo: --------------------------------- BODY : SCREEN CONTENT -------------------------------------
+
       // todo: Column untuk keseluruhan widget Isi Content
       child: Column(
         children: [
+
+          // todo: -------------------------- UPLOAD USER AVATAR -----------------------------------
 
           // todo: Container untuk Container Upload Avatar User (dibungkus GetureDetector biar bisa diklik)
           GestureDetector(
@@ -82,6 +89,8 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
 
+          // todo: -------------------------- INPUT FULL NAME -----------------------------------
+
           // todo: Container Text "Full Name" for TextField "Full Name" title
           Container(
             width: double.infinity, //* width Container sesuai layar
@@ -109,6 +118,8 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+
+          // todo: -------------------------- INPUT EMAIL ADDRESS -----------------------------------
 
           // todo: Container Text "Email Address" for TextField "Email Address" title
           Container(
@@ -138,6 +149,8 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
 
+          // todo: -------------------------- INPUT PASSWORD -----------------------------------
+
           // todo: Container Text "Password" for TextField "Password" title
           Container(
             width: double.infinity, //* width Container sesuai layar
@@ -166,6 +179,8 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+
+          // todo: -------------------------- BUTTON "CONTINUE" -----------------------------------
 
           // todo: Container untuk BUTTON 'CONTINUE'
           Container(
@@ -207,6 +222,8 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ],
       ),
+      
+      // todo: --------------------------------- END OF : SCREEN CONTENT -------------------------------------
     );
   }
 }

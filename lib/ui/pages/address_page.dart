@@ -1,7 +1,7 @@
 part of 'pages.dart';
 
 class AddressPage extends StatefulWidget {
-  final User user;
+  final User user; //* props/require yang bisa diberikan ke Address oleh Page lain => S
   final String password;
   final File pictureFile;
 
@@ -11,23 +11,25 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends State<AddressPage> {
-  TextEditingController phoneController = TextEditingController();
+  TextEditingController phoneController = TextEditingController(); //* TextEditingController() untuk Controller dan getter Text di TextField
   TextEditingController addressController = TextEditingController();
   TextEditingController houseNumController = TextEditingController();
-  bool isLoading = false;
-  List<String> cities;
-  String selectedCity;
+  bool isLoading = false; //* boolean untuk menamplkan loadingIndicator atau Tidak
+  List<String> cities; //* List String City yang tersedia untuk memilih User.city di DropdownButton
+  String selectedCity; //* Berisi String cities dengan Index terpilih
 
   @override
-  void initState(){
+  void initState(){ //* Seperti componentDidMount/useEffect di React (Lificycle)
     super.initState();
 
-    cities = ["Bandung", "Jakarta", "Surabaya", "Bengkulu"];
-    selectedCity = cities[0];
+    cities = ["Bandung", "Jakarta", "Surabaya", "Bengkulu"]; // todo: Inisialisasi List String untuk cities yang tersedia
+    selectedCity = cities[0]; // todo: Inisialisasi String selectedCity dengan cities index pertama
   }
 
   @override
   Widget build(BuildContext context) {
+
+    // todo: ------------------------------ HEADER -----------------------------------
 
     return GeneralPage(
       title: 'Address',
@@ -35,39 +37,51 @@ class _AddressPageState extends State<AddressPage> {
       onBackButtonPressed: () {
         Get.back();
       },
+
+      // todo: --------------------------------- BODY : SCREEN CONTENT -------------------------------------
+
+      // todo: Column untuk keseluruhan widget Isi Content
       child: Column(
         children: [
-          // Container Text "Phone Number"
+
+          // todo: -------------------------- INPUT PHONE NUMBER -----------------------------------
+
+          // todo: Container Text "Phone Number" for TextField "Phone Number" title
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text('Phone No.', style: blackFontStyle2),
           ),
-          // Container TextField "Phone Number"
+
+          // todo: Container TextField "PHONE NUMBER"
           Container(
-            width: double.infinity,
+            width: double.infinity, //* width Container sesuai layar
             margin: EdgeInsets.symmetric(horizontal: defaultMargin),
             padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration( // untuk dekorasi dari border TextField
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.black, width: 2)
+            decoration: BoxDecoration( //* Untuk dekorasi dari Border Container
+              borderRadius: BorderRadius.circular(8), //* BorderRadius untuk Container
+              border: Border.all(color: Colors.black, width: 2) //* Color & Width Border untuk Container
             ),
             child: TextField( 
-              controller: phoneController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintStyle: greyFontStyle, // style text placeholder
-                hintText: "Type your phone number" //placeholder
+              controller: phoneController, //* Inisialisasi controller phone
+              decoration: InputDecoration( //* Decoration untuk TextField
+                border: InputBorder.none, //* border dari TextField dihapus
+                hintStyle: greyFontStyle, //* style untuk text placeholder
+                hintText: "Type your phone number" //* placeholder
               ),
             ),
           ),
-          // Container Text "Address"
+
+          // todo: -------------------------- INPUT ADDRESS -----------------------------------
+          
+          // todo: Container Text "Address" for TextField "Address" title
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
             child: Text('Address', style: blackFontStyle2),
           ),
-          // Container TextField "Address"
+
+          // todo: Container TextField "PHONE NUMBER"
           Container(
             width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -85,13 +99,17 @@ class _AddressPageState extends State<AddressPage> {
               ),
             ),
           ),
-          // Container Text "House Number"
+
+          // todo: -------------------------- INPUT HOUSE NUMBER -----------------------------------
+          
+          // todo: Container Text "House No." for TextField "House Number" title
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
             child: Text('House No.', style: blackFontStyle2),
           ),
-          // Container TextField "House Number"
+
+          // todo: Container TextField "HOUSE NUMBER"
           Container(
             width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -109,57 +127,70 @@ class _AddressPageState extends State<AddressPage> {
               ),
             ),
           ),
-          // Container Text "House Number"
+
+
+          // todo: -------------------------- INPUT (DROP DOWN) CITY -----------------------------------
+
+          // todo: Container Text "City." for DropDown "House Number" title
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
             child: Text('City.', style: blackFontStyle2),
           ),
-          // Container TextField "House Number"
+
+          //todo: Container Dropdown "House Number"
           Container(
-            width: double.infinity,
+            width: double.infinity, //* width Container sesuai layar
             margin: EdgeInsets.symmetric(horizontal: defaultMargin),
             padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration( // untuk dekorasi dari border TextField
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.black, width: 2)
+            decoration: BoxDecoration(//* Untuk dekorasi dari Container Border
+              borderRadius: BorderRadius.circular(8), //* BorderRadius untuk Container
+              border: Border.all(color: Colors.black, width: 2) //* Color & Width Border untuk Container
             ),
+
+            // todo: child DropDown Button
             child: DropdownButton(
-              value: selectedCity,
-              // isExpanded: true,
-              underline: SizedBox(),
-              items: cities.map(
+              value: selectedCity, //* inisialisasi selectedCity sebagai value yang akan diambil di DropDownButton
+              isExpanded: true, //* width DropDown button mengikuti width Container
+              underline: SizedBox(), //* mengganti underline dengan SizedBox()
+              items: cities.map( //todo: memapping cities [] yang telah didefinikan ke DropdownMenuItem
                 (city) => 
                 DropdownMenuItem(
-                  value: city,
-                  child: Text(
+                  value: city, //todo: initialisasi value dari DropdownMenuItem yaitu String cities[index] yang sesuai dengan mapping
+                  //todo: DropdownMenuItem memakai Text untuk menampilkan itemsnya
+                  child: Text( 
                     city,
                     style: blackFontStyle3,
                   ),
                 )
               ).toList(),
-              onChanged: (item){ // item salah satu dari value di items
+
+              onChanged: (item){  //* method onChanged mempunyai value DropdownMenuItem yaitu item
                 setState(() {
-                  selectedCity = item;
+                  selectedCity = item; //todo: set selectedCity dengan value DropdownMenuItem yaitu item yang terpilih
                 });
               },
             ),
           ),
-          // button Sign Up
+
+
+          // todo: -------------------------- BUTTON "SIGN UP NOW" -----------------------------------
           Container(
-            width: double.infinity,
+            width: double.infinity, //* width Container sesuai layar
             margin: EdgeInsets.only(top: defaultMargin),
-            height: 45,
+            height: 45, //* Height Container untuk Button 45
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: (isLoading == true) ?
+            child: (isLoading == true) ? //todo: cek jika bool isLoading true maka menampilkan loadingIndicator
               (
                 Center(
                   child: loadingIndicator,
                 )
-              ):(
+              ):( //todo: cek jika bool isLoading flase maka menampilkan RaisedButton
+
+                // todo: child RaisedButton()
                 RaisedButton(
                   onPressed: () async {
-                    // todo: menerima data user dari sign_up_page.dart dan menambahkan dari TextField address_page.dart
+                    // todo: menerima data user dari sign_up_page.dart dan menambahkan dari TextField address_page.dart (phoneNumber, address, houseNumber & city)
                     User user = widget.user.copyWith(
                       phoneNumber: phoneController.text,
                       address: addressController.text,
@@ -167,25 +198,32 @@ class _AddressPageState extends State<AddressPage> {
                       city: selectedCity
                     );
 
-                    // todo: mengubah isLoading menjadi True
-                    setState(() {
+                    // todo: set true isLoading untuk menampilkan loadingIndicaotr
+                    setState(() { 
                       isLoading = true;
                     });
 
-                    // memanggil method signUp di cubit UserCubit 
+                    //todo: memanggil method signUp di cubit UserCubit dengan parameter( user dan (password dan pictureFile) dari Sign Up Page)
                     await context.bloc<UserCubit>().signUp(user, widget.password, pictureFile: widget.pictureFile);
-                    // memanggil berada dimana UserState saat ini
+                    
+                    //todo memanggil berada dimana UserState saat ini dan disimpan di state
                     UserState state = context.bloc<UserCubit>().state;
                       
-                    // jika state UserCubit di UserLoaded / response berhasil didapatkan maka
-                    // memanggil method getFoods di cubit FoodCubit & getTransactions di TransactionCubit
-                    // dan Navigation ke MainPage();
+                    //todo: cek jika state UserCubit di UserLoaded / response berhasil didapatkan maka
                     if (state is UserLoaded){
+
+                      //todo: memanggil method getFoods di cubit FoodCubit untuk men-load data Food
                       context.bloc<FoodCubit>().getFoods();
+
+                      //todo: memanggil method getTransactions di TransactionCubit untuk men-load data Transaction
                       context.bloc<TransactionCubit>().getTransactions();
+
+                      //todo: Navigation ke MainPage();
                       Get.to(MainPage());
-                    } else { // jika state UserCubit di UserLoadingFailed / gagal mendapatkan data maka
-                      // Notify/Pop Up dari Get
+
+                    } else { //! jika state UserCubit di UserLoadingFailed / gagal mendapatkan data maka
+
+                      //! Notify/Pop Up Error dari Get snackbar serta
                       Get.snackbar(
                         "", "",
                         backgroundColor: "D9435E".toColor(),
@@ -201,21 +239,25 @@ class _AddressPageState extends State<AddressPage> {
                           ),
                         ),
                         messageText: Text(
-                          // Cara memanggil message dari cubit/bloc jika berada di state UserLoadingFailed(UserLoadingFailed.message)
+                          //todo: mengambil response message jika UserState berada di UserLoadingFailed(UserLoadingFailed.message)
                           (state as UserLoadingFailed).message,
                           style: GoogleFonts.poppins(color: Colors.white),
                         )
                       );
+
+                      // todo: menghentikan loadingIndicator dengan set isLoading false
                       setState(() {
                         isLoading = false;
                       });
                     }
                   },
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)
+                  elevation: 5, //* Jarak dari Backgroud ke RaisedButton
+                  shape: RoundedRectangleBorder( //* shape Border dari RaisedButton
+                    borderRadius: BorderRadius.circular(8) //* value Radius dari RaisedButton
                   ),
-                  color: mainColor,
+                  color: mainColor, //* Background Color RaisedButton
+
+                  // todo: isi child dari RaisedButton yaitu Widget Text('Sign Up Now')
                   child: Text(
                     'Sign Up Now',
                     style: GoogleFonts.poppins(
@@ -228,6 +270,9 @@ class _AddressPageState extends State<AddressPage> {
           ),
         ],
       ),
+
+      // todo: ------------------------------ END OF: BODY SCREEN CONTENT -----------------------------------
+
     );
   }
 }
