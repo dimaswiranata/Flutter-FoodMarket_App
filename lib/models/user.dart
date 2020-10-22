@@ -22,6 +22,10 @@ class User extends Equatable{
     this.picturePath,
   });
 
+  //todo: User.fromJson, method untuk mengubah Json menjadi Object, 
+  //todo: parameter yang dibutuhkan adalah response API yang sudah diconvert menjadi Json
+  //todo: dan mengembalikan ke value yang yang bertype User
+  //* note dynamic maksudnya jika ada type selain String.
   factory User.fromJson(Map<String, dynamic> data) => User(
     id: data['id'],
     name: data['name'],
@@ -33,8 +37,8 @@ class User extends Equatable{
     picturePath: data['profile_photo_url'],
   );
 
-  // Method copyWith untuk mencopy User agar bisa di edit, jadi jika ingin mengedit maka datanya masuk ke copyWith
-  // User typenya Equatable dan atributenya final semua jadi tidak bisa didedit
+  // todo: Method copyWith untuk mencopy User agar bisa di edit, jadi jika ingin mengedit maka datanya masuk ke copyWith
+  //* note: User typenya Equatable dan atributenya final semua jadi tidak bisa didedit
   User copyWith({
   int id,
   String name,
@@ -45,7 +49,7 @@ class User extends Equatable{
   String city,
   String picturePath,
   }){
-    return User( // bisa diedit tapi ??(jika kosong) maka menggunakan data lama
+    return User( //* bisa diedit tapi ??(jika kosong) maka menggunakan data lama
       id : id ?? this.id, 
       name: name ?? this.name,
       email: email ?? this.email,

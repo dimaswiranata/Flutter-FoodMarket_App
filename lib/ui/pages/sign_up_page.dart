@@ -38,11 +38,12 @@ class _SignUpPageState extends State<SignUpPage> {
               // todo: Inisialisasi PickedFile yaitu pickedFile untuk menyimpan file yang terupload
               PickedFile pickedFile;
               
-              // todo: mengupload Image dari Gallery HP dengan Package ImagePicker()
+              // todo: mengupload Image dari Gallery HP dengan Package ImagePicker() lalu disimpan ke pickedFile
               pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
 
-              if (pickedFile != null){ // todo: cek PickedFile pickedFile apaka sudah terisi sudah belum
-                setState(() { // todo: simpan hasil pickedFile ke state 'pictureFile'
+              if (pickedFile != null){ // todo: cek PickedFile pickedFile apaka sudah terisi/ belum
+                setState(() {
+                  //todo: untuk pickedFile bagian [path] convert menjadi File lalu disimpan ke state 'pictureFile'
                   pictureFile = File(pickedFile.path);
                 });
               }

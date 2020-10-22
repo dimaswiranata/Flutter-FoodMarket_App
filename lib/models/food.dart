@@ -26,6 +26,10 @@ class Food extends Equatable {
   @override
   List<Object> get props => [id, picturePath, name, description, ingredients, price, rate];
 
+  //todo: Food.fromJson, method untuk mengubah Json menjadi Object, 
+  //todo: parameter yang dibutuhkan adalah response API yang sudah diconvert menjadi Json
+  //todo: dan mengembalikan ke value yang yang bertype Food
+  //* note dynamic maksudnya jika ada type selain String.
   factory Food.fromJson(Map<String, dynamic> data) => Food(
     id: data['id'],
     picturePath: data['picturePath'],
@@ -33,8 +37,8 @@ class Food extends Equatable {
     description: data['description'],
     ingredients: data['ingredients'],
     price: data['price'],
-    rate: (data['rate'] as num).toDouble(), // example :  4 ke 4.0 type awal double
-    types: data['types'].toString().split(',').map((e){ // "types": "new_food,recommended,popular" => [FoodType.new_food, FoodType.popular, FoodType.recommended]
+    rate: (data['rate'] as num).toDouble(), //todo: example :  4 ke 4.0 type awal double
+    types: data['types'].toString().split(',').map((e){ //todo: "types": "new_food, recommended, popular" => [FoodType.new_food, FoodType.popular, FoodType.recommended]
       switch(e){
         case 'recomended':
           return FoodType.recommended;

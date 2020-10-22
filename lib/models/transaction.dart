@@ -1,6 +1,6 @@
 part of 'models.dart';
 
-// Transaction Status Type
+//* Transaction Status Type
 enum TransactionStatus { 
   delivered, 
   on_delivery, 
@@ -29,8 +29,8 @@ class Transaction extends Equatable{
     this.paymentUrl
   });
 
-  // Method copyWith untuk mencopy Transaction agar bisa di edit, jadi jika ingin mengedit maka datanya masuk ke copyWith
-  // Transaction typenya Equatable dan atributenya final semua jadi tidak bisa didedit
+  // todo: Method copyWith untuk mencopy Transaction agar bisa di edit, jadi jika ingin mengedit maka datanya masuk ke copyWith
+  //* note: Transaction typenya Equatable dan atributenya final semua jadi tidak bisa didedit
   Transaction copyWith({
     int id,
     Food food,
@@ -40,7 +40,7 @@ class Transaction extends Equatable{
     TransactionStatus status,
     User user,
   }){
-    return Transaction( // bisa diedit tapi ??(jika kosong) maka menggunakan data lama
+    return Transaction( //* bisa diedit tapi ??(jika kosong) maka menggunakan data lama
       id : id ?? this.id, 
       food: food ?? this.food,
       quantity: quantity ?? this.quantity,
@@ -55,12 +55,15 @@ class Transaction extends Equatable{
   List<Object> get props => [id, food, quantity, total, dateTime, status, user];
   //
 
-  // fromJson mengubah Json menjadi Object
+  //todo: Transaction.fromJson, method untuk mengubah Json menjadi Object, 
+  //todo: parameter yang dibutuhkan adalah response API yang sudah diconvert menjadi Json
+  //todo: dan mengembalikan ke value yang yang bertype Transaction
+  //* note dynamic maksudnya jika ada type selain String.
   factory Transaction.fromJson(Map<String, dynamic> data) => Transaction(
     id: data['id'],
     quantity: data['quantity'],
     total: data['total'],
-    dateTime: DateTime.fromMillisecondsSinceEpoch(data['created_at']), // "created_at": 1600403217000, bertype milliseconds(since created) diubah ke DateTime()
+    dateTime: DateTime.fromMillisecondsSinceEpoch(data['created_at']), //* "created_at": 1600403217000, bertype milliseconds(since created) diubah ke DateTime()
     food: Food.fromJson(data['food']),
     status: (data['status'] == 'PENDING') 
               ? TransactionStatus.pending
@@ -69,7 +72,7 @@ class Transaction extends Equatable{
                 : (data['status'] == 'CANCELLED')
                   ? TransactionStatus.cancelled
                   : TransactionStatus.on_delivery,
-    paymentUrl: data['payment_url'] // url payment dari backend Mi Trans
+    paymentUrl: data['payment_url'] //* url payment dari backend Mi Trans
   );
 }
 

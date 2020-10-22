@@ -2,30 +2,28 @@ part of 'services.dart';
 
 class FoodServices {
 
-  // static method getFoods untuk mendapat value foods hehe
-  // tidak diperlukan parameter inputan dari user
+  //todo: ------------------------------------- GET FOODS --------------------------------------------------------
+
+  //todo: static method getFoods dan mengembalikan List/[] Food
   static Future<ApiReturnValue<List<Food>>> getFoods({http.Client client}) async {
-    // DUMMY DATA
-    // await Future.delayed(Duration(milliseconds: 500)); // delay koneksi dalam proses getFoods kira2, 0.5 detik
-    // return ApiReturnValue(value: mockFoods); // menamilkan value yang sudah diterima
+    
+    //todo: Jika http.Client null maka membuat http.Client yang baru
+    client ??= http.Client();
 
-    client ??= http.Client(); // membuat http client yang baru
+    String url = baseUrl + 'food'; //* Inisialisasi baseUrl + food => Url API Food
 
-    // Inisialisasi base URL
-    String url = baseUrl + 'food';
-
-    // Mendapat response get dari API dan menyimpan di response
-    var response = await client.get(url);
-
-    // cek jika gagal mendapatkan data 
+    //todo: Initialisasi var 'response' untuk menampung respon dari API Food
+    var response = await client.get(url); //* Method 'GET' untuk API Food
+ 
+    //todo: cek jika response.statusCode selain 200 berarti gagal mendapatkan response yang sesuai
     if (response.statusCode != 200){
-      return ApiReturnValue(message: 'Please try again');
+      return ApiReturnValue(message: 'Please try again'); //todo: mengembalikan String message
     } 
 
-    // menconvert response API menjadi Json dan mennyimpan di data
+    //todo: Jika berhasil, mengubah response.body API Food menjadi json dan menyimpan ke var data
     var data = jsonDecode(response.body);
 
-    // todo: RESPONSE API
+    // todo: RESPONSE API Food
     // {
     //   "data": {
     //      "current_page": 1,
@@ -73,12 +71,13 @@ class FoodServices {
     //     }
     // }, jadi pengambilan food sebegai berikut :
 
-    // mengubah Json data menjadi bentuk Object array ke foods
+    //todo: Food.fromJson, method dari model Food untuk mengubah Json menjadi Object dan menyimpan ke foods yang bertype Food
+    //todo: Karena data masih berbentuk json Array/[] maka perlu di ubah menjadi Object List/[] dan disimpan di List<Food> foods
     List<Food> foods = (data["data"]["data"] as Iterable)
       .map((e) => Food.fromJson(e))
       .toList();
 
-    // mengembalikan value return yang sudah berbentuk array
+    //todo: mengembalikan foods yang telah diubah menjadi Object List/[]
     return ApiReturnValue(value: foods); 
   }
   
